@@ -1,0 +1,85 @@
+ html, body {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+body > .container {
+  flex: 1;
+}
+
+.progressbar-wrapper {
+  position: relative;
+  margin: 40px 0 20px;
+}
+
+.progressbar {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  z-index: 1;
+}
+
+.progressbar .step {
+  width: 40px;
+  height: 40px;
+  background-color: lightgray;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: black;
+  position: relative;
+  z-index: 2;
+}
+
+.progressbar .step.active {
+  background-color: black;
+  color: white;
+}
+
+.progressbar::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background-color: lightgray;
+  transform: translateY(-50%);
+  z-index: 0;
+}
+
+.label-container {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+
+.label {
+  width: 30%;
+  text-align: center;
+  font-weight: bold;
+}
+
+form label {
+  font-weight: 500;
+}
+
+form input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+form button {
+  background-color: black;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+}
