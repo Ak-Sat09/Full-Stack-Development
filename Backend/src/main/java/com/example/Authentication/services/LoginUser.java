@@ -1,6 +1,7 @@
 package com.example.Authentication.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.example.Authentication.dtos.UserDto;
@@ -15,7 +16,7 @@ public class LoginUser {
 
     public String loginUser(UserDto dto)throws Exception{
         if (!repository.findByEmail(dto.getEmail()).isPresent()) {
-            throw new RuntimeException("User Not Found");
+            throw new UsernameNotFoundException("User Not Found ");
         }
 
         UserEntity user = repository.findByEmail(dto.getEmail()).get();

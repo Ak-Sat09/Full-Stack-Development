@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.Authentication.dtos.UserDto;
 import com.example.Authentication.services.RegisterUser;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/v1")
 @CrossOrigin(origins = "http://localhost:3000") 
@@ -21,7 +23,7 @@ public class RegisterUserController {
     private RegisterUser registerUser;
 
     @PostMapping("register")
-    public ResponseEntity<String> registerUser(@RequestBody UserDto dto){
+    public ResponseEntity<String> registerUser(@Valid @RequestBody UserDto dto){
         try {
             String response = registerUser.saveUser(dto);
             return new ResponseEntity<>(response , HttpStatus.CREATED);

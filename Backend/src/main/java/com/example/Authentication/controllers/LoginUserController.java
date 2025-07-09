@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import com.example.Authentication.dtos.UserDto;
 import com.example.Authentication.services.LoginUser;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/v1")
 @CrossOrigin(origins = "http://localhost:3000") 
@@ -17,7 +19,7 @@ public class LoginUserController {
     private LoginUser loginUser;
 
     @PostMapping("/login")
-    public ResponseEntity<String> loginUser(@RequestBody UserDto userDto){
+    public ResponseEntity<String> loginUser(@Valid @RequestBody UserDto userDto){
         try {
             String response = loginUser.loginUser(userDto);
             return new ResponseEntity<>(response, HttpStatus.OK);
