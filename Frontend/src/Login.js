@@ -1,6 +1,6 @@
  import React, { useState } from "react";
 
-const Login = ({onSuccess}) => {
+const Login = ({ onSuccess, goToPayment }) => {
   const [loginForm, setLoginForm] = useState({ email: "", password: "" });
 
   const handleChange = (e) =>
@@ -15,28 +15,53 @@ const Login = ({onSuccess}) => {
         body: JSON.stringify(loginForm),
       });
 
-      if (res.ok) {
-        const msg = await res.text();
-        alert(" Login Success: " + msg);
-        onSuccess();
-      } else {
-        alert(" Invalid email or password");
+      const data = await res.json();
+
+      if (!res.ok || !data.success) {
+        alert("❌ Login Failed: " + data.message);
+
+        if (data.message.toLowerCase().includes("payment")) {
+          goToPayment();  // Redirect automatically to Payment page
+        }
+        return;
       }
+
+      alert("✅ Login Success: " + data.message);
+      onSuccess();
     } catch (err) {
-      alert(" Server Error");
+      alert("🚫 Server Error");
     }
   };
 
   return (
     <form onSubmit={handleSubmit}>
       <h2>Login</h2>
+
       <label>Email</label>
-      <input name="email" type="email" className="form-control" value={loginForm.email} onChange={handleChange} required />
+      <input
+        name="email"
+        type="email"
+        className="form-control"
+        value={loginForm.email}
+        onChange={handleChange}
+        required
+      />
 
       <label>Password</label>
-      <input name="password" type="password" className="form-control" value={loginForm.password} onChange={handleChange} required />
+      <input
+        name="password"
+        type="password"
+        className="form-control"
+        value={loginForm.password}
+        onChange={handleChange}
+        required
+      />
 
-      <button type="submit" className="form-control" style={{ backgroundColor: "black", color: "white" }}>
+      <button
+        type="submit"
+        className="form-control"
+        style={{ backgroundColor: "black", color: "white" }}
+      >
         Login
       </button>
     </form>

@@ -1,23 +1,31 @@
-import React, { useState } from "react";
+ import React, { useState } from "react";
 
-const Payment = ({onNext}) => {
+const Payment = ({ onNext }) => {
   const [email, setEmail] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch(`http://localhost:8080/api/payment/success?email=${encodeURIComponent(email)}`, {
-        method: "POST",
-      });
+      const res = await fetch(
+        `http://localhost:8080/api/payment/success?email=${encodeURIComponent(
+          email
+        )}`,
+        {
+          method: "POST",
+        }
+      );
 
-      if (res.ok) {
-        alert(" Payment Email Sent Successfully");
-        onNext();
-      } else {
-        alert(" Payment Request Failed");
+      const data = await res.json();
+
+      if (!res.ok || !data.success) {
+        alert("❌ Payment Failed: " + data.message);
+        return;
       }
+
+      alert("✅ Payment Successful: " + data.message);
+      onNext();
     } catch (err) {
-      alert(" Server Error");
+      alert("🚫 Server Error");
     }
   };
 

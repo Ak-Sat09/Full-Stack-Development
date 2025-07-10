@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.Authentication.dtos.UserDto;
+import com.example.Authentication.exceptions.ApiResponse;
 import com.example.Authentication.services.RegisterUser;
 
 import jakarta.validation.Valid;
@@ -22,13 +23,14 @@ public class RegisterUserController {
     @Autowired
     private RegisterUser registerUser;
 
-    @PostMapping("register")
-    public ResponseEntity<String> registerUser(@Valid @RequestBody UserDto dto){
-        try {
-            String response = registerUser.saveUser(dto);
-            return new ResponseEntity<>(response , HttpStatus.CREATED);
-        } catch (Exception e) {
-             return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
-        }
+   @PostMapping("/register")
+public ResponseEntity<ApiResponse> registerUser(@Valid @RequestBody UserDto dto){
+    try {
+        String response = registerUser.saveUser(dto);
+        return new ResponseEntity<>(new ApiResponse(true, response), HttpStatus.CREATED);
+    } catch (Exception e) {
+        return new ResponseEntity<>(new ApiResponse(false, e.getMessage()), HttpStatus.BAD_REQUEST);
     }
+}
+
 }

@@ -1,6 +1,6 @@
  import React, { useState } from "react";
 
-const Register = ({onNext}) => {
+const Register = ({ onNext }) => {
   const [form, setForm] = useState({ name: "", email: "", password: "" });
 
   const handleChange = (e) =>
@@ -15,15 +15,17 @@ const Register = ({onNext}) => {
         body: JSON.stringify(form),
       });
 
-      if (res.ok) {
-        alert("Registered Successfully");
-        onNext();
-      } else {
-        const error = await res.text();
-        alert(" Error: " + error);
+      const data = await res.json();
+
+      if (!res.ok || !data.success) {
+        alert("❌ Registration Failed: " + data.message);
+        return;
       }
+
+      alert("✅ Registration Successful: " + data.message);
+      onNext();
     } catch (err) {
-      alert("Server Error");
+      alert("🚫 Server Error");
     }
   };
 
@@ -32,17 +34,42 @@ const Register = ({onNext}) => {
       <div className="mb-3">
         <h2>Personal Information</h2>
         <label>Full Name</label>
-        <input name="name" type="text" className="form-control" value={form.name} onChange={handleChange} required />
+        <input
+          name="name"
+          type="text"
+          className="form-control"
+          value={form.name}
+          onChange={handleChange}
+          required
+        />
         <label>Email</label>
-        <input name="email" type="email" className="form-control" value={form.email} onChange={handleChange} required />
+        <input
+          name="email"
+          type="email"
+          className="form-control"
+          value={form.email}
+          onChange={handleChange}
+          required
+        />
       </div>
 
       <div className="mb-3">
         <label>Password</label>
-        <input name="password" type="password" className="form-control" value={form.password} onChange={handleChange} required />
+        <input
+          name="password"
+          type="password"
+          className="form-control"
+          value={form.password}
+          onChange={handleChange}
+          required
+        />
       </div>
 
-      <button type="submit" className="form-control" style={{ backgroundColor: "black", color: "white" }}>
+      <button
+        type="submit"
+        className="form-control"
+        style={{ backgroundColor: "black", color: "white" }}
+      >
         Continue to Payment
       </button>
     </form>
