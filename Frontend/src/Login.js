@@ -1,6 +1,6 @@
  import React, { useState } from "react";
 
-const Login = () => {
+const Login = ({onSuccess}) => {
   const [loginForm, setLoginForm] = useState({ email: "", password: "" });
 
   const handleChange = (e) =>
@@ -18,6 +18,7 @@ const Login = () => {
       if (res.ok) {
         const msg = await res.text();
         alert(" Login Success: " + msg);
+        onSuccess();
       } else {
         alert(" Invalid email or password");
       }

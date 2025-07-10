@@ -1,10 +1,49 @@
  import React, { useState } from "react";
 import Register from "./Register";
 import Login from "./Login";
+import Payment from "./Payment";
 import "./App.css";
 
 function App() {
-  const [step, setStep] = useState(1); // 1: Register, 2: Payment (Future), 3: Login
+  const [step, setStep] = useState(1); // 1: Register, 2: Payment, 3: Login
+  const [registered, setRegistered] = useState(false);
+  const [paid, setPaid] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const handleRegisterNext = () => {
+    setRegistered(true);
+    setStep(2); // Go to payment
+  };
+
+  const handlePaymentNext = () => {
+    setPaid(true);
+    setStep(3); // Go to login
+  };
+
+  const handleLoginSuccess = () => {
+    setIsLoggedIn(true); //  Mark user as logged in
+  };
+
+  const handleLoginClick = () => {
+    if (!isLoggedIn) {
+      if (!registered) return alert(" You must complete Registration first.");
+      if (!paid) return alert(" You must complete Payment first.");
+    }
+    setStep(3); // Go to login
+  };
+
+  const handleRegisterClick = () => {
+    if (!isLoggedIn && registered) return alert("You're already registered. Go to Payment or Login.");
+    setStep(1);
+  };
+
+  const handlePaymentClick = () => {
+    if (!isLoggedIn) {
+      if (!registered) return alert("You must register first.");
+      if (paid) return alert(" Already Paid. Go to Login.");
+    }
+    setStep(2);
+  };
 
   return (
     <>
@@ -12,8 +51,9 @@ function App() {
         <div className="container-fluid">
           <a className="navbar-brand fw-bold" href="#">CompanyName</a>
           <div>
-            <button className="btn btn-outline-success me-2" onClick={() => setStep(3)}>Login</button>
-            <button className="btn btn-outline-success" onClick={() => setStep(1)}>Register</button>
+            <button className="btn btn-outline-success me-2" onClick={handleLoginClick}>Login</button>
+            <button className="btn btn-outline-success me-2" onClick={handleRegisterClick}>Register</button>
+            <button className="btn btn-outline-success" onClick={handlePaymentClick}>Payment</button>
           </div>
         </div>
       </nav>
@@ -34,8 +74,9 @@ function App() {
           <div className="label">Submission</div>
         </div>
 
-        {step === 1 && <Register onNext={() => setStep(3)} />}
-        {step === 3 && <Login />}
+        {step === 1 && <Register onNext={handleRegisterNext} />}
+        {step === 2 && <Payment onNext={handlePaymentNext} />}
+        {step === 3 && <Login onSuccess={handleLoginSuccess} />}
       </div>
 
       <footer className="bg-light text-center text-lg-start mt-auto">

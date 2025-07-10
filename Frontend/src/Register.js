@@ -1,6 +1,6 @@
  import React, { useState } from "react";
 
-const Register = () => {
+const Register = ({onNext}) => {
   const [form, setForm] = useState({ name: "", email: "", password: "" });
 
   const handleChange = (e) =>
@@ -17,6 +17,7 @@ const Register = () => {
 
       if (res.ok) {
         alert("Registered Successfully");
+        onNext();
       } else {
         const error = await res.text();
         alert(" Error: " + error);

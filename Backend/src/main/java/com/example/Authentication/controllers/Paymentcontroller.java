@@ -8,6 +8,7 @@ import com.example.Authentication.services.Payment;
 
 @RestController
 @RequestMapping("/api/payment")
+@CrossOrigin(origins = "http://localhost:3000")
 public class Paymentcontroller {
 
     @Autowired
