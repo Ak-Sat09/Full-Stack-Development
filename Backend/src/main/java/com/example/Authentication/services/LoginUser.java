@@ -27,6 +27,10 @@ public class LoginUser {
             throw new RuntimeException("Incorrect Password");
         }
 
+         if (!user.isPaid()) {
+            throw new RuntimeException("Payment not completed. Please complete payment to login.");
+        }
+
         return "User Login Successfully";
     }
 }

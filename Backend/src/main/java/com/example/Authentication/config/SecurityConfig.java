@@ -14,7 +14,7 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
     http
         .csrf().disable()
         .authorizeHttpRequests()
-            .requestMatchers("/api/v1/register","/api/v1/login" ,  "/api/v1/upload").permitAll() 
+            .requestMatchers("/api/v1/register","/api/v1/login" ,  "/api/v1/upload" ,  "/api/payment/**" ).permitAll() 
             .anyRequest().authenticated()
         .and()
         .httpBasic();

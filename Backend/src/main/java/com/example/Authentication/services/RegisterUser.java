@@ -21,7 +21,10 @@ public class RegisterUser {
 
         UserEntity user = UserEntity.builder().name(dto.getName()).email(dto.getEmail()).password(PasswordEncoder.passwordEncode(dto.getPassword())).build();
  
-         repository.save(user);
+
+        user.setPaid(false);
+
+        repository.save(user);
 
         return "User Registerd Succesfully";
          }
