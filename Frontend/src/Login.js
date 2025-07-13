@@ -1,6 +1,6 @@
- import React, { useState } from "react";
+import React, { useState } from "react";
 
-const Login = ({ onSuccess, goToPayment }) => {
+const Login = ({ onSuccess }) => {
   const [loginForm, setLoginForm] = useState({ email: "", password: "" });
 
   const handleChange = (e) =>
@@ -17,26 +17,24 @@ const Login = ({ onSuccess, goToPayment }) => {
 
       const data = await res.json();
 
-      if (!res.ok || !data.success) {
-        alert("❌ Login Failed: " + data.message);
+      if (res.ok) {
+        alert("Login Success: " + data.message);
+        // You can access referralCode here
+        console.log("Referral Code:", data.referralCode);
 
-        if (data.message.toLowerCase().includes("payment")) {
-          goToPayment();  // Redirect automatically to Payment page
-        }
-        return;
+        // Pass referralCode back to parent or store in state
+        onSuccess(data.referralCode);
+      } else {
+        alert("Error: " + (data.message || "Invalid email or password"));
       }
-
-      alert("✅ Login Success: " + data.message);
-      onSuccess();
     } catch (err) {
-      alert("🚫 Server Error");
+      alert("Server Error");
     }
   };
 
   return (
     <form onSubmit={handleSubmit}>
       <h2>Login</h2>
-
       <label>Email</label>
       <input
         name="email"

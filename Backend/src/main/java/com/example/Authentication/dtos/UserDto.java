@@ -1,5 +1,6 @@
 package com.example.Authentication.dtos;
 
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -8,7 +9,6 @@ import lombok.Data;
 @Data
 public class UserDto {
 
-//    @NotBlank(message = "Name is Required")
     private String name;
 
     @NotBlank(message = "Email is Required")
@@ -16,7 +16,13 @@ public class UserDto {
     private String email;
 
     @NotBlank(message = "Password is Required")
-    @Size(min = 6 , max = 8 , message = "Password Must to be 6 character to 8 Character")
+    @Size(min = 6, max = 8, message = "Password must be 6 to 8 characters")
     private String password;
-}
 
+    @Column(nullable = true)
+    private String referralCode;
+
+    @Column(nullable = true)
+    private String referredBy;
+
+}

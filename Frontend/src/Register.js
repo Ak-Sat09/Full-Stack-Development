@@ -1,7 +1,12 @@
- import React, { useState } from "react";
+import React, { useState } from "react";
 
 const Register = ({ onNext }) => {
-  const [form, setForm] = useState({ name: "", email: "", password: "" });
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    password: "",
+    referredByCode: ""
+  });
 
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -15,24 +20,23 @@ const Register = ({ onNext }) => {
         body: JSON.stringify(form),
       });
 
-      const data = await res.json();
-
-      if (!res.ok || !data.success) {
-        alert("❌ Registration Failed: " + data.message);
-        return;
+      if (res.ok) {
+        alert("Registered Successfully");
+        onNext(); // Go to Payment or Next Step
+      } else {
+        const error = await res.text();
+        alert("Error: " + error);
       }
-
-      alert("✅ Registration Successful: " + data.message);
-      onNext();
     } catch (err) {
-      alert("🚫 Server Error");
+      alert("Server Error");
     }
   };
 
   return (
     <form onSubmit={handleSubmit}>
       <div className="mb-3">
-        <h2>Personal Information</h2>
+        <h2>Register</h2>
+
         <label>Full Name</label>
         <input
           name="name"
@@ -42,6 +46,7 @@ const Register = ({ onNext }) => {
           onChange={handleChange}
           required
         />
+
         <label>Email</label>
         <input
           name="email"
@@ -51,9 +56,7 @@ const Register = ({ onNext }) => {
           onChange={handleChange}
           required
         />
-      </div>
 
-      <div className="mb-3">
         <label>Password</label>
         <input
           name="password"
@@ -62,6 +65,15 @@ const Register = ({ onNext }) => {
           value={form.password}
           onChange={handleChange}
           required
+        />
+
+        <label>Referral Code (Optional)</label>
+        <input
+          name="referredByCode"
+          type="text"
+          className="form-control"
+          value={form.referredByCode}
+          onChange={handleChange}
         />
       </div>
 

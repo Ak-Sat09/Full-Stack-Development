@@ -18,14 +18,14 @@ const Payment = ({ onNext }) => {
       const data = await res.json();
 
       if (!res.ok || !data.success) {
-        alert("❌ Payment Failed: " + data.message);
+        alert("Payment Failed: " + data.message);
         return;
       }
 
-      alert("✅ Payment Successful: " + data.message);
+      alert("Payment Successful: " + data.message);
       onNext();
     } catch (err) {
-      alert("🚫 Server Error");
+      alert("Server Error");
     }
   };
 

@@ -1,15 +1,7 @@
 package com.example.Authentication.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
- 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.persistence.*;
+import lombok.*;
 
 @Entity
 @Getter
@@ -18,14 +10,25 @@ import lombok.Setter;
 @NoArgsConstructor
 @Builder
 public class UserEntity {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
+
     private String name;
+
+    @Column(unique = true, nullable = false)
     private String email;
+
     private String password;
-   
+
     @Builder.Default
     private boolean isPaid = false;
+
+    @Column(nullable = true)
+    private String referralCode;
+
+    @Column(name = "referred_by_name", nullable = true)
+    private String referredByName;
+
 }

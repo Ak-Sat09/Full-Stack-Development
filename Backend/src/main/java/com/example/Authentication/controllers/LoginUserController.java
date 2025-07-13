@@ -1,4 +1,6 @@
- package com.example.Authentication.controllers;
+package com.example.Authentication.controllers;
+
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,24 +22,24 @@ public class LoginUserController {
     @Autowired
     private LoginUser loginUser;
 
-   @PostMapping("/login")
-public ResponseEntity<ApiResponse> loginUser(@Valid @RequestBody UserDto userDto) {
-    try {
-        String response = loginUser.loginUser(userDto);
-        return ResponseEntity.ok(new ApiResponse(true, response));
-    } catch (UserNotFound e) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(new ApiResponse(false, "User not found"));
-    } catch (IllegalArgumentException e) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(new ApiResponse(false, "Missing required fields"));
-    } catch (RuntimeException e) {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                .body(new ApiResponse(false, e.getMessage())); 
-    } catch (Exception e) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(new ApiResponse(false, "Something went wrong"));
+    @PostMapping("/login")
+    public ResponseEntity<?> loginUser(@Valid @RequestBody UserDto userDto) {
+        try {
+            Map<String, Object> response = loginUser.loginUser(userDto);
+            // send success with referralCode
+            return ResponseEntity.ok(response);
+        } catch (UserNotFound e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ApiResponse(false, "User not found"));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new ApiResponse(false, "Missing required fields"));
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(new ApiResponse(false, e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ApiResponse(false, "Something went wrong"));
+        }
     }
-}
-
 }

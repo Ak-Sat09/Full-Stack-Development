@@ -10,17 +10,16 @@ public class SecurityConfig {
 
     @SuppressWarnings("removal")
     @Bean
-public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-    http
-        .csrf().disable()
-        .authorizeHttpRequests()
-            .requestMatchers("/api/v1/register","/api/v1/login" ,  "/api/v1/upload" ,  "/api/payment/**" ).permitAll() 
-            .anyRequest().authenticated()
-        .and()
-        .httpBasic();
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+                .csrf().disable().authorizeHttpRequests()
+                .requestMatchers("/**").permitAll()
 
-    return http.build();
-}
+                .anyRequest().authenticated()
+                .and()
+                .httpBasic();
 
-    
+        return http.build();
+    }
+
 }
