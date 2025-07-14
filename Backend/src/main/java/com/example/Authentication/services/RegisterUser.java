@@ -60,7 +60,8 @@ public class RegisterUser {
         repository.save(user);
         System.out.println("User saved with referredByName: " + referredByName);
 
-        return "User registered successfully";
+        return "User registered successfully. Referral Code: " + user.getReferralCode();
+
     }
 
     private String generateUnique4Digit() {

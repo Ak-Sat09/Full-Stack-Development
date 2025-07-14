@@ -1,29 +1,36 @@
 import React, { useState } from "react";
 import Register from "./Register";
 import Login from "./Login";
-import Home from "./Home";
 import Payment from "./Payment";
+import Home from "./Home";
 import "./App.css";
 
 function App() {
-  const [step, setStep] = useState(3); // default to login
+  const [step, setStep] = useState(3); // Default: login
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userReferralCode, setUserReferralCode] = useState("");
 
-  const handleRegisterNext = () => {
-    // after registration, just go to login (no forced payment)
-    setStep(3);
+  // 1️⃣ After Register → Go to Payment and save referral code
+  const handleRegisterNext = (referralCode) => {
+    setUserReferralCode(referralCode); // store referral code from Register.js
+    setStep(2); // go to payment
   };
 
+  // 2️⃣ After Payment → Go to Login
   const handlePaymentNext = () => {
-    // optional: if payment done, go to login
     setStep(3);
   };
 
+  // 3️⃣ On Login success → Go to Home and store referralCode
   const handleLoginSuccess = (referralCode) => {
     setIsLoggedIn(true);
     setUserReferralCode(referralCode);
-    alert("User logged in successfully");
+    setStep(4);
+  };
+
+  // 4️⃣ If payment not done → Redirect to Payment
+  const handleRedirectToPayment = () => {
+    setStep(2);
   };
 
   return (
@@ -55,10 +62,17 @@ function App() {
       </nav>
 
       <div className="container mt-5">
-        {!isLoggedIn && step === 1 && <Register onNext={handleRegisterNext} />}
-        {!isLoggedIn && step === 2 && <Payment onNext={handlePaymentNext} />}
-        {!isLoggedIn && step === 3 && <Login onSuccess={handleLoginSuccess} />}
-        {isLoggedIn && <Home referralCode={userReferralCode} />}
+        {step === 1 && !isLoggedIn && (
+          <Register onNext={handleRegisterNext} />
+        )}
+        {step === 2 && !isLoggedIn && <Payment onNext={handlePaymentNext} />}
+        {step === 3 && !isLoggedIn && (
+          <Login
+            onSuccess={handleLoginSuccess}
+            onRedirectToPayment={handleRedirectToPayment}
+          />
+        )}
+        {step === 4 && isLoggedIn && <Home referralCode={userReferralCode} />}
       </div>
 
       <footer className="bg-light text-center text-lg-start mt-auto">

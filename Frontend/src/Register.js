@@ -20,12 +20,16 @@ const Register = ({ onNext }) => {
         body: JSON.stringify(form),
       });
 
+      const data = await res.text();
+
       if (res.ok) {
-        alert("Registered Successfully");
-        onNext(); // Go to Payment or Next Step
+        alert(data); // show full message including referral code
+        // Extract referral code from message string
+        const match = data.match(/Referral Code:\s*(\d{4})/);
+        const referralCode = match ? match[1] : "";
+        onNext(referralCode); // Pass referral code back to parent
       } else {
-        const error = await res.text();
-        alert("Error: " + error);
+        alert("Error: " + data);
       }
     } catch (err) {
       alert("Server Error");
