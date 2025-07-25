@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 // Display a node and its children recursively
 const ReferralNode = ({ node }) => {
   return (
-    <div style={{ marginLeft: "20px" }}>
-      <div>{node.name}</div>
+    <div className="ms-4 mt-2">
+      <div className="p-2 border rounded bg-light">{node.name}</div>
       {node.children && node.children.map((child, index) => (
         <ReferralNode key={index} node={child} />
       ))}
@@ -46,14 +47,21 @@ const Home = ({ referralCode }) => {
   }, [referralCode]);
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h3>Referral Tree</h3>
-      <button onClick={fetchReferralTree}>Load My Referral Tree</button>
+    <div className="container my-4">
+      <h3 className="mb-3">Referral Tree</h3>
 
-      {loading && <p>Loading...</p>}
-      {error && <p style={{ color: "red" }}>{error}</p>}
+      <button className="btn btn-dark mb-3" onClick={fetchReferralTree}>
+        Load My Referral Tree
+      </button>
 
-      {tree && <ReferralNode node={tree} />}
+      {loading && <p className="text-secondary">Loading...</p>}
+      {error && <p className="text-danger">{error}</p>}
+
+      {tree && (
+        <div className="border p-3 rounded bg-white">
+          <ReferralNode node={tree} />
+        </div>
+      )}
     </div>
   );
 };

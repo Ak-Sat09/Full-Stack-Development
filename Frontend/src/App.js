@@ -1,86 +1,66 @@
-import React, { useState } from "react";
-import Register from "./Register";
-import Login from "./Login";
-import Payment from "./Payment";
-import Home from "./Home";
+import React from "react";
 import "./App.css";
 
 function App() {
-  const [step, setStep] = useState(3); // Default: login
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userReferralCode, setUserReferralCode] = useState("");
-
-  // 1️⃣ After Register → Go to Payment and save referral code
-  const handleRegisterNext = (referralCode) => {
-    setUserReferralCode(referralCode); // store referral code from Register.js
-    setStep(2); // go to payment
-  };
-
-  // 2️⃣ After Payment → Go to Login
-  const handlePaymentNext = () => {
-    setStep(3);
-  };
-
-  // 3️⃣ On Login success → Go to Home and store referralCode
-  const handleLoginSuccess = (referralCode) => {
-    setIsLoggedIn(true);
-    setUserReferralCode(referralCode);
-    setStep(4);
-  };
-
-  // 4️⃣ If payment not done → Redirect to Payment
-  const handleRedirectToPayment = () => {
-    setStep(2);
-  };
-
   return (
-    <>
-      <nav className="navbar navbar-expand-lg bg-light">
-        <div className="container-fluid">
-          <a className="navbar-brand fw-bold" href="#">
-            CompanyName
-          </a>
-          <div>
-            {!isLoggedIn && (
-              <>
-                <button
-                  className="btn btn-outline-success me-2"
-                  onClick={() => setStep(3)}
-                >
-                  Login
-                </button>
-                <button
-                  className="btn btn-outline-success"
-                  onClick={() => setStep(1)}
-                >
-                  Register
-                </button>
-              </>
-            )}
+    <div className="container my-5">
+      {/* Top Section */}
+      <section className="text-start mb-4">
+        <h2 className="fw-bold">Memberships plans.</h2>
+        <p>Choose a plan that's right for you…</p>
+      </section>
+
+      {/* Plans Section */}
+      <div className="row">
+        {/* Plan 1 */}
+        <div className="col-md-4 mb-4">
+          <div className="card h-100 border-primary">
+            <div className="card-body">
+              <h5 className="card-title fw-bold">Starter</h5>
+              <h6 className="card-subtitle mb-2 text-muted">Free</h6>
+              <ul className="list-group list-group-flush my-3">
+                <li className="list-group-item">Get started with our free plan</li>
+                <li className="list-group-item">Access limited content</li>
+                <li className="list-group-item">No support</li>
+              </ul>
+              <button className="btn btn-outline-primary w-100">Get Started</button>
+            </div>
           </div>
         </div>
-      </nav>
 
-      <div className="container mt-5">
-        {step === 1 && !isLoggedIn && (
-          <Register onNext={handleRegisterNext} />
-        )}
-        {step === 2 && !isLoggedIn && <Payment onNext={handlePaymentNext} />}
-        {step === 3 && !isLoggedIn && (
-          <Login
-            onSuccess={handleLoginSuccess}
-            onRedirectToPayment={handleRedirectToPayment}
-          />
-        )}
-        {step === 4 && isLoggedIn && <Home referralCode={userReferralCode} />}
-      </div>
-
-      <footer className="bg-light text-center text-lg-start mt-auto">
-        <div className="text-center p-3 bg-light text-dark">
-          © 2025 Company Name. All rights reserved.
+        {/* Plan 2 */}
+        <div className="col-md-4 mb-4">
+          <div className="card h-100 border-success">
+            <div className="card-body">
+              <h5 className="card-title fw-bold">Pro</h5>
+              <h6 className="card-subtitle mb-2 text-muted">₹199/month</h6>
+              <ul className="list-group list-group-flush my-3">
+                <li className="list-group-item">Unlock all courses</li>
+                <li className="list-group-item">Download materials</li>
+                <li className="list-group-item">Email support</li>
+              </ul>
+              <button className="btn btn-success w-100">Subscribe Now</button>
+            </div>
+          </div>
         </div>
-      </footer>
-    </>
+
+        {/* Plan 3 */}
+        <div className="col-md-4 mb-4">
+          <div className="card h-100 border-dark">
+            <div className="card-body">
+              <h5 className="card-title fw-bold">Premium</h5>
+              <h6 className="card-subtitle mb-2 text-muted">₹499/month</h6>
+              <ul className="list-group list-group-flush my-3">
+                <li className="list-group-item">All Pro benefits</li>
+                <li className="list-group-item">1:1 Mentorship</li>
+                <li className="list-group-item">Live support</li>
+              </ul>
+              <button className="btn btn-dark w-100">Go Premium</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
 
