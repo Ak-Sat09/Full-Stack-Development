@@ -24,14 +24,11 @@ public class PaymentEntity {
     private Long id;
 
     private String orderId;
-    private String paymentId;
     private int amount;
-    private String currency;
+    private int attempts;
     private String receiptId;
-
     @Enumerated(EnumType.STRING)
     private PaymentStatus status;
-
     private LocalDateTime createdAt;
 
 }

@@ -37,7 +37,6 @@ public class PaymentService {
         PaymentEntity payment = PaymentEntity.builder()
                 .orderId(order.get("id"))
                 .amount(dto.getAmount())
-                .currency(order.get("currency"))
                 .receiptId(order.get("receipt"))
                 .status(PaymentStatus.CREATED)
                 .createdAt(LocalDateTime.now())
@@ -53,7 +52,6 @@ public class PaymentService {
         return response;
     }
 
-    // Verify payment signature sent from frontend after payment
     public boolean verifySignature(String orderId, String paymentId, String signature) throws Exception {
         String payload = orderId + "|" + paymentId;
 
@@ -63,7 +61,6 @@ public class PaymentService {
 
         byte[] hashBytes = mac.doFinal(payload.getBytes());
 
-        // Convert to HEX string
         StringBuilder hashHex = new StringBuilder();
         for (byte b : hashBytes) {
             hashHex.append(String.format("%02x", b));
@@ -71,7 +68,20 @@ public class PaymentService {
 
         String generatedSignature = hashHex.toString();
 
-        return generatedSignature.equals(signature);
+        boolean isValid = generatedSignature.equals(signature);
+
+        if (isValid) {
+            // Update status in DB to SUCCESS
+            PaymentEntity payment = paymentRepository.findByOrderId(orderId)
+                    .orElseThrow(() -> new RuntimeException("Payment not found"));
+
+            payment.setStatus(PaymentStatus.SUCCESS); // Or PAID if you want
+            payment.setAttempts(payment.getAttempts() + 1); // Increment attempts if needed
+
+            paymentRepository.save(payment);
+        }
+
+        return isValid;
     }
 
     // Update payment status and paymentId after successful payment
@@ -82,7 +92,6 @@ public class PaymentService {
         }
 
         PaymentEntity payment = optionalPayment.get();
-        payment.setPaymentId(paymentId);
         payment.setStatus(PaymentStatus.valueOf(status.toUpperCase()));
 
         paymentRepository.save(payment);
