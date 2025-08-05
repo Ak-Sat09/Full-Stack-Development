@@ -1,0 +1,190 @@
+/* Container */
+.pricing-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    background-color: #f9fafb;
+    font-family: Arial, sans-serif;
+}
+
+/* Grid for plans */
+.plans-grid {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 50px;
+}
+
+/* Plan Card */
+.plan-card {
+    flex: 1 1 300px;
+    background: white;
+    border: 2px solid #d1d5db;
+    border-radius: 20px;
+    padding: 30px;
+    box-sizing: border-box;
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.plan-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Popular Plan Styles */
+.plan-card.popular {
+    background: linear-gradient(135deg, #4f46e5, #3b82f6);
+    color: white;
+    border: none;
+}
+
+.popular-badge {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #facc15;
+    color: #1f2937;
+    padding: 5px 15px;
+    border-radius: 9999px;
+    font-weight: 600;
+    font-size: 0.85rem;
+}
+
+/* Plan Header */
+.plan-header h3 {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+}
+
+.price {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.plan-card.popular .price {
+    color: #e0e7ff;
+}
+
+.description {
+    font-size: 0.9rem;
+    color: #6b7280;
+}
+
+.plan-card.popular .description {
+    color: #bfdbfe;
+}
+
+/* Features List */
+.features-list {
+    margin: 20px 0;
+}
+
+.feature-item {
+    display: flex;
+    align-items: start;
+    gap: 10px;
+    margin-bottom: 12px;
+    font-size: 0.95rem;
+    color: #374151;
+}
+
+.plan-card.popular .feature-item {
+    color: #dbeafe;
+}
+
+/* Check Icon */
+.check-icon {
+    width: 20px;
+    height: 20px;
+    margin-top: 3px;
+    flex-shrink: 0;
+}
+
+.normal-check {
+    color: #10b981;
+    /* green */
+}
+
+.popular-check {
+    color: #93c5fd;
+    /* lighter blue */
+}
+
+/* Buttons */
+.btn {
+    width: 100%;
+    padding: 15px 0;
+    border-radius: 15px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-primary {
+    background-color: #2563eb;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #1d4ed8;
+    transform: scale(1.05);
+}
+
+.btn-secondary {
+    background-color: white;
+    color: #111827;
+    border: 2px solid #9ca3af;
+}
+
+.btn-secondary:hover {
+    background-color: #f3f4f6;
+    transform: scale(1.05);
+}
+
+/* Extra Options */
+.extra-options {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.extra-card {
+    flex: 1 1 400px;
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 4px 6px rgb(0 0 0 / 0.1);
+    box-sizing: border-box;
+    transition: box-shadow 0.3s ease;
+}
+
+.extra-card:hover {
+    box-shadow: 0 10px 20px rgb(0 0 0 / 0.15);
+}
+
+.extra-card h3 {
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+    color: #111827;
+}
+
+.extra-card p {
+    font-size: 0.95rem;
+    color: #4b5563;
+    margin-bottom: 20px;
+}
+
+.btn-extra {
+    background-color: #e5e7eb;
+    color: #111827;
+}
+
+.btn-extra:hover {
+    background-color: #d1d5db;
+    transform: scale(1.05);
+}

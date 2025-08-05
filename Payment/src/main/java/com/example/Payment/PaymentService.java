@@ -75,8 +75,8 @@ public class PaymentService {
             PaymentEntity payment = paymentRepository.findByOrderId(orderId)
                     .orElseThrow(() -> new RuntimeException("Payment not found"));
 
-            payment.setStatus(PaymentStatus.SUCCESS); // Or PAID if you want
-            payment.setAttempts(payment.getAttempts() + 1); // Increment attempts if needed
+            payment.setStatus(PaymentStatus.SUCCESS);  
+            payment.setAttempts(payment.getAttempts() + 1); 
 
             paymentRepository.save(payment);
         }
